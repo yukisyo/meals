@@ -26,29 +26,26 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Meal> _availableMeals = dummyMeals;
-  List<Meal>? _favoriteMeals;
+  final List<Meal> _favoriteMeals = [];
 
   void _toggleFavoriteMeal(String mealId) {
     // print(mealId);
     final existingIndex =
-        _favoriteMeals?.indexWhere((meal) => meal.id == mealId);
-    if (existingIndex != null && existingIndex > 0) {
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
       setState(() {
-        _favoriteMeals?.removeAt(existingIndex);
+        _favoriteMeals.removeAt(existingIndex);
       });
     } else {
       setState(() {
         _favoriteMeals
-            ?.add(dummyMeals.firstWhere((element) => element.id == mealId));
+            .add(dummyMeals.firstWhere((element) => element.id == mealId));
       });
     }
   }
 
   bool isFavorite(String id) {
-    if (_favoriteMeals == null) {
-      return false;
-    }
-    return _favoriteMeals?.any((element) => element.id == id) as bool;
+    return _favoriteMeals.any((element) => element.id == id);
   }
 
   void _setFilters(Map<String, bool> filterData) {
