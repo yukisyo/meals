@@ -1,50 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:meals/screen/categories_screen.dart';
+import '../models/meal.dart';
 import '../widgets/main_drawer.dart';
 import 'favorites_screen.dart';
 
 class TabScreen extends StatefulWidget {
-  const TabScreen({Key? key}) : super(key: key);
+  final List<Meal>? favoriteMeals;
+  const TabScreen({Key? key, required this.favoriteMeals}) : super(key: key);
 
   @override
   State<TabScreen> createState() => _TabScreenState();
 }
 
 class _TabScreenState extends State<TabScreen> {
-  Widget buildDefaultTab() {
-    return DefaultTabController(
-      length: 2,
-      initialIndex: 0,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Meals'),
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.category), text: 'Categories'),
-              Tab(icon: Icon(Icons.star), text: 'Favorites'),
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            CategoriesScreen(),
-            FavoritesScreen(),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget buildDefaultTab() {
+  //   return DefaultTabController(
+  //     length: 2,
+  //     initialIndex: 0,
+  //     child: Scaffold(
+  //       appBar: AppBar(
+  //         title: const Text('Meals'),
+  //         bottom: const TabBar(
+  //           tabs: [
+  //             Tab(icon: Icon(Icons.category), text: 'Categories'),
+  //             Tab(icon: Icon(Icons.star), text: 'Favorites'),
+  //           ],
+  //         ),
+  //       ),
+  //       body: const TabBarView(
+  //         children: [
+  //           CategoriesScreen(),
+  //           FavoritesScreen(
+  //             favoriteMeals: widget.favoriteMeals,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': const CategoriesScreen(),
-      'title': 'Categories',
-    },
-    {
-      'page': const FavoritesScreen(),
-      'title': 'Favorite',
-    }
-  ];
+  late List<Map<String, Object>> _pages;
+
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': const CategoriesScreen(),
+        'title': 'Categories',
+      },
+      {
+        'page': FavoritesScreen(
+          favoriteMeals: widget.favoriteMeals,
+        ),
+        'title': 'Your Favorite',
+      },
+    ];
+    super.initState();
+  }
 
   int _selectPageIndex = 0;
 
